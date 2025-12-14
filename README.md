@@ -28,7 +28,7 @@ An end-to-end machine learning system that transforms eCommerce behavioral data 
 ## Project Structure
 
 ```
-Credit-Risk-Probability-Model-for-Alternative-Data/
+credit-risk-model/
 ├── data/
 │   ├── raw/              # Raw input data
 │   └── processed/        # Processed and feature-engineered data
@@ -64,8 +64,8 @@ Credit-Risk-Probability-Model-for-Alternative-Data/
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
-   cd Credit-Risk-Probability-Model-for-Alternative-Data
+   git clone https://github.com/Danielmituku/credit-risk-model.git
+   cd credit-risk-model
    ```
 
 2. **Create a virtual environment**
