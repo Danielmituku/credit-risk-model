@@ -29,4 +29,17 @@ jobs:
     - name: Verify dependencies installation
       run: |
         python -c "import pandas, numpy, sklearn, mlflow, fastapi, uvicorn, pydantic; print('✓ All core dependencies installed successfully')"
+    
+    - name: Run linter (flake8)
+      run: |
+        flake8 src/ tests/ --count --select=E9,F63,F7,F82 --show-source --statistics
+        flake8 src/ tests/ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    
+    - name: Run unit tests
+      run: |
+        pytest tests/ -v --tb=short
+    
+    - name: Check code formatting (black)
+      run: |
+        black --check src/ tests/ || echo "Code formatting check failed - run 'black src/ tests/' to fix"
 

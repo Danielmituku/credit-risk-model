@@ -35,14 +35,17 @@ credit-risk-model/
 ├── notebooks/
 │   └── eda.ipynb         # Exploratory data analysis
 ├── src/
+│   ├── __init__.py       # Package initialization
 │   ├── api/
-│   │   ├── main.py       # FastAPI application
-│   │   └── pydantic_models.py  # API request/response models
-│   ├── data_processing.py  # Data preprocessing and feature engineering
-│   ├── train.py          # Model training pipeline
-│   └── predict.py        # Prediction utilities
+│   │   ├── main.py       # FastAPI application with error handling
+│   │   └── pydantic_models.py  # API request/response models with validation
+│   ├── data_processing.py  # Data preprocessing and feature engineering with error handling
+│   ├── train.py          # Model training pipeline with MLflow tracking
+│   └── predict.py        # Prediction utilities with error handling
 ├── tests/
-│   └── tests_data_processing.py  # Unit tests
+│   ├── conftest.py       # Pytest fixtures
+│   └── test_data_processing.py  # Unit tests with error handling examples
+├── example_usage.py      # Example usage script
 ├── .github/
 │   └── workflows/
 │       └── ci.yml        # CI/CD pipeline configuration
@@ -86,22 +89,72 @@ credit-risk-model/
 
 ## Usage
 
+### Data Processing
+
+```python
+from src.data_processing import load_data, process_data
+
+# Load raw transaction data
+df = load_data("data/raw/data.csv")
+
+# Process data and create features
+processed_df, target = process_data(df)
+print(f"Processed {len(processed_df)} customer records")
+```
+
 ### Training the Model
 
+```python
+from src.train import train_models
+
+# Train models with MLflow tracking
+results = train_models(
+    data_path="data/processed/train_data.csv",
+    target_col="is_high_risk",
+    test_size=0.2,
+    random_state=42
+)
+
+# Access trained models and metrics
+lr_model = results['logistic_regression']['model']
+rf_model = results['random_forest']['model']
+```
+
+Or use the command line:
+
 ```bash
-python src/train.py
+python -m src.train
 ```
 
 This will:
 - Load and preprocess the data
 - Perform RFM analysis and feature engineering
-- Train the credit risk model
+- Train multiple models (Logistic Regression, Random Forest)
 - Log experiments and models to MLflow
+- Evaluate models using multiple metrics (accuracy, precision, recall, F1, ROC-AUC)
 
 ### Making Predictions
 
-```bash
-python src/predict.py
+```python
+from src.predict import load_model_from_mlflow, predict_risk_probability, calculate_credit_score
+import pandas as pd
+
+# Load trained model from MLflow
+model = load_model_from_mlflow(model_name="credit-risk-model")
+
+# Prepare features (must match training data structure)
+features = pd.DataFrame({
+    'Total_Amount': [50000.0],
+    'Avg_Amount': [5000.0],
+    # ... other features
+})
+
+# Predict risk probability
+risk_prob = predict_risk_probability(model, features)[0]
+
+# Calculate credit score
+credit_score = calculate_credit_score(risk_prob)
+print(f"Risk Probability: {risk_prob:.4f}, Credit Score: {credit_score}")
 ```
 
 ### Running the API Server
@@ -265,14 +318,48 @@ This will start the MLflow UI at `http://localhost:5000`
 
 ## Testing
 
-Run tests using pytest:
+The project includes comprehensive unit tests with error handling demonstrations.
+
+### Running Tests
 
 ```bash
 # Run all tests
-pytest
+pytest tests/
+
+# Run with verbose output
+pytest tests/ -v
 
 # Run with coverage report
-pytest --cov=src --cov-report=html
+pytest tests/ --cov=src --cov-report=html
+
+# Run specific test file
+pytest tests/test_data_processing.py -v
+```
+
+### Test Coverage
+
+The test suite includes:
+- **Data Loading Tests**: File validation, error handling
+- **Feature Engineering Tests**: Aggregate features, temporal features
+- **Pipeline Tests**: Preprocessing pipeline creation and execution
+- **Error Handling**: Tests for missing columns, invalid data, edge cases
+
+### Example Test
+
+```python
+from src.data_processing import load_data, create_aggregate_features
+
+def test_aggregate_features():
+    df = pd.DataFrame({
+        'CustomerId': ['C1', 'C1', 'C2'],
+        'Amount': [100, 200, 150],
+        'Value': [100, 200, 150]
+    })
+    
+    result = create_aggregate_features(df)
+    assert 'Total_Amount' in result.columns
+    assert len(result) == 2  # Two unique customers
+```
 
 # Run specific test file
 pytest tests/tests_data_processing.py
