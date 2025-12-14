@@ -245,9 +245,9 @@ The project must align with Basel II's **Internal Ratings-Based (IRB) approaches
 
 ---
 
-### Task 2: Exploratory Data Analysis (EDA) ⏳
+### Task 2: Exploratory Data Analysis (EDA) ✅
 
-**Status**: ⏳ Not Yet Started
+**Status**: ✅ Complete
 
 **Objective**: Explore the dataset to uncover patterns, identify data quality issues, and form hypotheses that will guide feature engineering.
 
@@ -255,46 +255,54 @@ The project must align with Basel II's **Internal Ratings-Based (IRB) approaches
 - Use Jupyter Notebook (`notebooks/eda.ipynb`) for all exploratory work
 - This notebook is for exploration only; not for production code
 
-**Required Activities**:
+**Completed Activities**:
 
 #### 2.1 Overview of the Data
-- [ ] Understand the structure of the dataset
-- [ ] Number of rows, columns, and data types
-- [ ] Initial data inspection
+- ✅ Understand the structure of the dataset
+- ✅ Number of rows, columns, and data types
+- ✅ Initial data inspection
 
 #### 2.2 Summary Statistics
-- [ ] Understand central tendency, dispersion, and shape of distributions
-- [ ] Calculate descriptive statistics for numerical features
-- [ ] Analyze categorical feature distributions
+- ✅ Understand central tendency, dispersion, and shape of distributions
+- ✅ Calculate descriptive statistics for numerical features
+- ✅ Analyze categorical feature distributions
 
 #### 2.3 Distribution of Numerical Features
-- [ ] Visualize distributions to identify patterns
-- [ ] Identify skewness and potential outliers
-- [ ] Create histograms, box plots for numerical features
+- ✅ Visualize distributions to identify patterns
+- ✅ Identify skewness and potential outliers
+- ✅ Create histograms, box plots for numerical features
 
 #### 2.4 Distribution of Categorical Features
-- [ ] Analyze frequency and variability of categories
-- [ ] Create bar charts, pie charts for categorical features
-- [ ] Identify dominant categories and rare categories
+- ✅ Analyze frequency and variability of categories
+- ✅ Create bar charts, pie charts for categorical features
+- ✅ Identify dominant categories and rare categories
 
 #### 2.5 Correlation Analysis
-- [ ] Understand relationships between numerical features
-- [ ] Create correlation matrix and heatmap
-- [ ] Identify highly correlated features
+- ✅ Understand relationships between numerical features
+- ✅ Create correlation matrix and heatmap
+- ✅ Identify highly correlated features
 
 #### 2.6 Identifying Missing Values
-- [ ] Identify missing values across all columns
-- [ ] Determine missing data patterns
-- [ ] Decide on appropriate imputation strategies
+- ✅ Identify missing values across all columns
+- ✅ Determine missing data patterns
+- ✅ Decide on appropriate imputation strategies
 
 #### 2.7 Outlier Detection
-- [ ] Use box plots to identify outliers
-- [ ] Analyze outlier patterns
-- [ ] Determine outlier treatment strategy
+- ✅ Use box plots to identify outliers
+- ✅ Analyze outlier patterns
+- ✅ Determine outlier treatment strategy
+
+#### 2.8 Outlier Handling (Section 7.1) ✅
+- ✅ Comprehensive outlier analysis using IQR method
+- ✅ Visualization comparing original vs capped distributions
+- ✅ Handling recommendations based on outlier severity
+- ✅ Creation of cleaned dataset (df_cleaned) for comparison
+- ✅ Statistics comparison showing impact of capping
 
 **Deliverables**:
-- [ ] Complete EDA notebook (`notebooks/eda.ipynb`)
-- [ ] Summarize top 3-5 most important insights in the notebook
+- ✅ Complete EDA notebook (`notebooks/eda.ipynb`)
+- ✅ Summarize top 3-5 most important insights in the notebook
+- ✅ All visualizations saved to `notebooks/figures/` directory
 
 ---
 
@@ -507,82 +515,117 @@ The project must align with Basel II's **Internal Ratings-Based (IRB) approaches
 
 ---
 
-## Task 2: EDA Findings ⏳ (Detailed Checklist)
+## Task 2: EDA Findings ✅ (Completed)
 
-### 2.1 Planned EDA Activities
+### 2.1 Completed EDA Activities
 
 #### Data Quality Assessment
-- [ ] Check for missing values across all columns
-- [ ] Identify duplicate transactions
-- [ ] Analyze data completeness by time period
-- [ ] Check for outliers in Amount and Value fields
-- [ ] Validate data types and formats
+- ✅ Check for missing values across all columns - **No missing values found**
+- ✅ Identify duplicate transactions
+- ✅ Analyze data completeness by time period
+- ✅ Check for outliers in Amount and Value fields - **Amount: 25.55% outliers, Value: 9.43% outliers**
+- ✅ Validate data types and formats
 
 #### Univariate Analysis
-- [ ] Distribution of transaction amounts
-- [ ] Distribution of transaction frequencies per customer
-- [ ] Analysis of ProductCategory distribution
-- [ ] ChannelId usage patterns
-- [ ] Temporal patterns (transaction timing)
-- [ ] Geographic distribution (CountryCode)
+- ✅ Distribution of transaction amounts
+- ✅ Distribution of transaction frequencies per customer
+- ✅ Analysis of ProductCategory distribution - **Top category: financial_services (47.5%)**
+- ✅ ChannelId usage patterns
+- ✅ Temporal patterns (transaction timing) - **Year, month, hour, day of week analysis**
+- ✅ Geographic distribution (CountryCode)
 
 #### Bivariate and Multivariate Analysis
-- [ ] Relationship between Amount and ProductCategory
-- [ ] Channel preferences by customer segments
-- [ ] Temporal trends over time
-- [ ] Correlation analysis between features
-- [ ] Customer segmentation based on RFM features
+- ✅ Relationship between Amount and ProductCategory
+- ✅ Channel preferences by customer segments
+- ✅ Temporal trends over time
+- ✅ Correlation analysis between features - **Correlation matrix created**
+- ✅ Customer segmentation based on RFM features - **Customer-level aggregation preview**
 
-#### RFM Feature Engineering and Analysis
-- [ ] Calculate Recency, Frequency, Monetary metrics
-- [ ] Analyze RFM score distributions
-- [ ] Identify customer segments (Champions, At Risk, etc.)
-- [ ] Explore RFM patterns by ProductCategory
-- [ ] Temporal analysis of RFM metrics
-
-#### Proxy Target Variable Exploration
-- [ ] Define proxy target variable(s) based on behavioral patterns
-- [ ] Analyze proxy target distribution
-- [ ] Explore relationships between RFM features and proxy target
-- [ ] Assess proxy target validity and business rationale
+#### Outlier Detection and Handling
+- ✅ Outlier detection using IQR method
+- ✅ Comprehensive outlier handling section (7.1) with:
+  - Outlier analysis and percentile calculations
+  - Visualization comparing original vs capped distributions
+  - Handling recommendations based on outlier percentage
+  - Creation of cleaned dataset (df_cleaned) for comparison
+  - Statistics comparison showing impact of capping
 
 #### Data Preprocessing Requirements
-- [ ] Identify features requiring transformation
-- [ ] Determine handling strategy for missing values
-- [ ] Plan for outlier treatment
-- [ ] Define feature engineering pipeline
-- [ ] Plan for temporal aggregation (transaction → customer level)
+- ✅ Identify features requiring transformation - **4 highly skewed features identified**
+- ✅ Determine handling strategy for missing values - **No missing values**
+- ✅ Plan for outlier treatment - **Capping at 1st-99th percentile recommended**
+- ✅ Define feature engineering pipeline - **Ready for implementation**
+- ✅ Plan for temporal aggregation (transaction → customer level) - **Customer stats previewed**
 
-### 2.2 Expected Deliverables
+### 2.2 Key Findings
 
-Once Task 2 is completed, this section will include:
+#### 1. Data Summary Statistics
+- **Dataset dimensions**: 95,662 transactions with 15 features
+- **Data quality**: Excellent - No missing values found
+- **Customer base**: 3,742 unique customers
+- **Average transactions per customer**: ~25.6 transactions
 
-1. **Data Summary Statistics**
-   - Dataset dimensions
-   - Data quality metrics
-   - Key statistics for numerical features
+#### 2. Key Findings
 
-2. **Key Findings**
-   - Data quality issues identified
-   - Patterns discovered in transaction behavior
-   - Insights from RFM analysis
-   - Proxy target variable definition and rationale
+**Data Quality**:
+- ✅ **No missing values** - High data quality, no imputation needed
+- ⚠️ **Significant outliers** in Amount (25.5%) and Value (9.4%) features requiring treatment
 
-3. **Visualizations**
-   - Distribution plots
-   - Correlation heatmaps
-   - Temporal trend analysis
-   - Customer segmentation visualizations
+**Feature Characteristics**:
+- **Highly skewed features**: Amount (skew=51.10), Value (skew=51.29), PricingStrategy (skew=1.66), FraudResult (skew=22.20)
+- **Categorical distribution**: ProductCategory relatively balanced, top category is financial_services (47.5%)
+- **Temporal patterns**: Clear patterns identified by year, month, hour, and day of week
 
-4. **Preprocessing Recommendations**
-   - Data cleaning steps required
-   - Feature engineering approach
-   - Handling of missing values and outliers
+**Outlier Analysis**:
+- **Amount**: 25.55% outliers (HIGH) - Requires capping at 1st-99th percentile or log transformation
+- **Value**: 9.43% outliers (MODERATE) - Consider capping at 99th percentile
+- **Recommendation**: Use cleaned dataset (df_cleaned) with capped outliers for model training
 
-5. **Top 3-5 Most Important Insights**
-   - Documented in the EDA notebook
-   - Key patterns that will guide feature engineering
-   - Important data quality considerations
+**Customer Behavior**:
+- High variability in customer transaction frequency (min=1, median=7, max=4,091)
+- Ideal for RFM-based segmentation
+- Customer-level aggregation preview shows significant variation in spending patterns
+
+#### 3. Visualizations Created
+All visualizations saved to `notebooks/figures/`:
+- ✅ Numerical features distribution (01_numerical_features_distribution.png)
+- ✅ ProductCategory distribution (02_product_category_distribution.png)
+- ✅ ChannelId distribution (03_channel_id_distribution.png)
+- ✅ Currency and Country distribution (04_currency_country_distribution.png)
+- ✅ FraudResult distribution (05_fraud_result_distribution.png)
+- ✅ Correlation matrix (06_correlation_matrix.png)
+- ✅ Outlier detection boxplots (08_outlier_detection_boxplots.png)
+- ✅ Temporal patterns (09_temporal_patterns.png)
+- ✅ Outlier handling comparison (10_outlier_handling_comparison.png)
+
+#### 4. Preprocessing Recommendations
+
+**Data Cleaning**:
+- ✅ No missing value imputation needed
+- ✅ Apply outlier capping at 1st-99th percentile for Amount and Value features
+
+**Feature Engineering**:
+- Apply log transformation to highly skewed features: Amount, Value, PricingStrategy, FraudResult
+- Consider robust scaling methods that are less sensitive to outliers
+- Use RFM analysis to segment customers
+- Extract temporal features (already identified patterns)
+
+**Outlier Handling**:
+- **Amount**: Cap at 1st-99th percentile or use log transformation
+- **Value**: Cap at 99th percentile or monitor impact on model performance
+- Alternative: Use robust scaling methods
+
+#### 5. Top 5 Most Important Insights
+
+1. **Data Completeness**: No missing values found - high data quality allows direct feature engineering without imputation steps.
+
+2. **Customer Base**: 3,742 unique customers with high variability in transaction frequency (1 to 4,091 transactions per customer) - ideal for RFM-based segmentation.
+
+3. **Feature Skewness**: 4 highly skewed features (Amount, Value, PricingStrategy, FraudResult) require transformation (log, square root) before modeling.
+
+4. **Outlier Detection and Handling**: Significant outliers present (Amount: 25.5%, Value: 9.4%) requiring treatment. Section 7.1 provides detailed analysis and recommendations. A cleaned dataset (df_cleaned) with capped outliers is available for comparison.
+
+5. **Product Category**: Relatively balanced distribution with financial_services as top category (47.5%). Standard categorical encoding (one-hot or label encoding) can be used effectively.
 
 ---
 
@@ -591,7 +634,7 @@ Once Task 2 is completed, this section will include:
 | Task | Status | Completion % | Notes |
 |------|--------|--------------|-------|
 | **Task 1: Understanding Credit Risk** | ✅ Complete | 100% | README.md updated with Credit Scoring Business Understanding section |
-| **Task 2: Exploratory Data Analysis (EDA)** | ⏳ Pending | 0% | EDA notebook not yet started |
+| **Task 2: Exploratory Data Analysis (EDA)** | ✅ Complete | 100% | Complete EDA with outlier handling section. All visualizations saved to figures directory. PR #1 created. |
 | **Task 3: Feature Engineering** | ⏳ Pending | 0% | Awaiting EDA completion |
 | **Task 4: Proxy Target Variable Engineering** | ⏳ Pending | 0% | RFM clustering and proxy definition pending |
 | **Task 5: Model Training and Tracking** | ⏳ Pending | 0% | Awaiting feature engineering and proxy variable |
@@ -636,19 +679,17 @@ Once Task 2 is completed, this section will include:
 
 ## Next Steps
 
-### Immediate Priority: Task 2 - Exploratory Data Analysis
+### Immediate Priority: Task 3 - Feature Engineering
 
-1. **Start EDA Notebook** (`notebooks/eda.ipynb`):
-   - Load and explore the Xente transaction dataset
-   - Perform comprehensive data quality assessment
-   - Complete all 7 required EDA activities:
-     - Overview of data structure
-     - Summary statistics
-     - Distribution analysis (numerical and categorical)
-     - Correlation analysis
-     - Missing value identification
-     - Outlier detection
-   - Document top 3-5 most important insights
+1. **Implement Feature Engineering Pipeline** (`src/data_processing.py`):
+   - Use sklearn Pipeline to chain all transformation steps
+   - Create aggregate features (Total, Average, Count, Std Dev)
+   - Extract temporal features (Hour, Day, Month, Year)
+   - Encode categorical variables (one-hot or label encoding)
+   - Handle missing values (none found, but prepare pipeline)
+   - Normalize/standardize numerical features
+   - Implement WoE and IV transformations
+   - Apply outlier capping based on EDA findings
 
 ### Short-term: Feature Engineering and Proxy Variable
 
@@ -735,5 +776,6 @@ Once Task 2 is completed, this section will include:
 ---
 
 **Report Last Updated**: December 2024  
-**Next Review Date**: After Task 2 Completion
+**Last Update**: Task 2 (EDA) completed - PR #1 created and merged  
+**Next Review Date**: After Task 3 (Feature Engineering) Completion
 
