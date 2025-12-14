@@ -1,5 +1,152 @@
 # Credit-Risk-Probability-Model-for-Alternative-Data
+
 An end-to-end machine learning system that transforms eCommerce behavioral data into actionable credit risk signals using RFM analysis, proxy target engineering, MLflow tracking, FastAPI deployment, and CI/CD automation.
+
+## Table of Contents
+
+- [Features](#features)
+- [Project Structure](#project-structure)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Documentation](#api-documentation)
+- [Credit Scoring Business Understanding](#credit-scoring-business-understanding)
+- [Development](#development)
+- [Testing](#testing)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Features
+
+- **RFM Analysis**: Recency, Frequency, Monetary value analysis of eCommerce transaction data
+- **Proxy Target Engineering**: Creates credit risk proxies from behavioral patterns when direct default labels are unavailable
+- **MLflow Integration**: Comprehensive model tracking, versioning, and experiment management
+- **FastAPI Deployment**: RESTful API for real-time credit risk predictions
+- **Interpretable Models**: Logistic Regression with Weight of Evidence (WoE) transformations for regulatory compliance
+- **CI/CD Pipeline**: Automated testing and deployment workflows
+- **Docker Support**: Containerized deployment for consistent environments
+
+## Project Structure
+
+```
+Credit-Risk-Probability-Model-for-Alternative-Data/
+├── data/
+│   ├── raw/              # Raw input data
+│   └── processed/        # Processed and feature-engineered data
+├── notebooks/
+│   └── eda.ipynb         # Exploratory data analysis
+├── src/
+│   ├── api/
+│   │   ├── main.py       # FastAPI application
+│   │   └── pydantic_models.py  # API request/response models
+│   ├── data_processing.py  # Data preprocessing and feature engineering
+│   ├── train.py          # Model training pipeline
+│   └── predict.py        # Prediction utilities
+├── tests/
+│   └── tests_data_processing.py  # Unit tests
+├── .github/
+│   └── workflows/
+│       └── ci.yml        # CI/CD pipeline configuration
+├── Dockerfile            # Docker container configuration
+├── docker-compose.yml    # Docker Compose configuration
+├── requirements.txt     # Python dependencies
+└── README.md            # Project documentation
+```
+
+## Installation
+
+### Prerequisites
+
+- Python 3.10 or higher
+- pip package manager
+- (Optional) Docker and Docker Compose for containerized deployment
+
+### Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd Credit-Risk-Probability-Model-for-Alternative-Data
+   ```
+
+2. **Create a virtual environment**
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+
+3. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Set up environment variables** (if needed)
+   ```bash
+   cp .env.example .env  # Create .env file with your configuration
+   ```
+
+## Usage
+
+### Training the Model
+
+```bash
+python src/train.py
+```
+
+This will:
+- Load and preprocess the data
+- Perform RFM analysis and feature engineering
+- Train the credit risk model
+- Log experiments and models to MLflow
+
+### Making Predictions
+
+```bash
+python src/predict.py
+```
+
+### Running the API Server
+
+```bash
+uvicorn src.api.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+The API will be available at `http://localhost:8000`
+
+### Using Docker
+
+```bash
+# Build and run with Docker Compose
+docker-compose up --build
+
+# Or build and run Docker container directly
+docker build -t credit-risk-model .
+docker run -p 8000:8000 credit-risk-model
+```
+
+## API Documentation
+
+Once the FastAPI server is running, interactive API documentation is available at:
+
+- **Swagger UI**: `http://localhost:8000/docs`
+- **ReDoc**: `http://localhost:8000/redoc`
+
+### Example API Request
+
+```python
+import requests
+
+url = "http://localhost:8000/predict"
+data = {
+    "customer_id": "12345",
+    "recency": 30,
+    "frequency": 5,
+    "monetary": 1000.0,
+    # ... other features
+}
+
+response = requests.post(url, json=data)
+print(response.json())
+```
 
 ## Credit Scoring Business Understanding
 
@@ -80,3 +227,83 @@ The choice between simple, interpretable models (e.g., **Logistic Regression wit
 4. **Documentation**: Regardless of model choice, maintain comprehensive documentation of model development, validation, and interpretability methods
 
 **Decision Framework**: In a regulated financial context, **interpretability often outweighs marginal performance gains** unless the performance improvement is substantial and can be justified with proper documentation and validation. The Basel II emphasis on supervisory review and transparency makes interpretability a regulatory requirement, not just a best practice.
+
+## Development
+
+### Setting Up Development Environment
+
+1. Follow the [Installation](#installation) steps
+2. Install development dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+### Code Style
+
+This project follows PEP 8 style guidelines. Code formatting is enforced using:
+
+- **Black**: Automatic code formatting
+- **Flake8**: Linting and style checking
+- **MyPy**: Static type checking
+
+Run code quality checks:
+```bash
+black src/ tests/
+flake8 src/ tests/
+mypy src/
+```
+
+### MLflow Tracking
+
+The project uses MLflow for experiment tracking. To view experiments:
+
+```bash
+mlflow ui
+```
+
+This will start the MLflow UI at `http://localhost:5000`
+
+## Testing
+
+Run tests using pytest:
+
+```bash
+# Run all tests
+pytest
+
+# Run with coverage report
+pytest --cov=src --cov-report=html
+
+# Run specific test file
+pytest tests/tests_data_processing.py
+```
+
+## Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Make your changes and add tests
+4. Ensure all tests pass (`pytest`)
+5. Run code quality checks (`black`, `flake8`, `mypy`)
+6. Commit your changes (`git commit -m 'Add some amazing feature'`)
+7. Push to the branch (`git push origin feature/amazing-feature`)
+8. Open a Pull Request
+
+### Pull Request Guidelines
+
+- Ensure CI checks pass
+- Update documentation if needed
+- Add tests for new features
+- Follow the existing code style
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- Built for credit risk assessment using alternative data sources
+- Designed with Basel II regulatory compliance in mind
+- Implements best practices for interpretable machine learning in financial services
