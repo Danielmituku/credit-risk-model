@@ -119,3 +119,4 @@ def calculate_credit_score(risk_probability: float,
         logger.error(f"Error calculating credit score: {str(e)}")
         raise
 
+

@@ -12,6 +12,18 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 import logging
+from typing import Optional
+
+# Import WoE transformer
+try:
+    from src.woe_transformer import WoETransformer, calculate_information_value
+except ImportError:
+    try:
+        from woe_transformer import WoETransformer, calculate_information_value
+    except ImportError:
+        WoETransformer = None
+        calculate_information_value = None
+        logger.warning("WoE transformer not available. Install dependencies.")
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -230,4 +242,47 @@ def process_data(df: pd.DataFrame,
     except Exception as e:
         logger.error(f"Error in data processing: {str(e)}")
         raise
+
+
+def apply_woe_transformation(X: pd.DataFrame, 
+                            y: pd.Series,
+                            apply_woe: bool = True,
+                            calculate_iv: bool = True) -> tuple:
+    """
+    Apply WoE transformation and calculate Information Value.
+    
+    Args:
+        X: Feature DataFrame
+        y: Target Series
+        apply_woe: Whether to apply WoE transformation
+        calculate_iv: Whether to calculate IV for feature selection
+        
+    Returns:
+        Tuple of (transformed_X, iv_df) or (X, iv_df)
+    """
+    try:
+        if not apply_woe and not calculate_iv:
+            return X, None
+        
+        if calculate_iv and calculate_information_value:
+            logger.info("Calculating Information Value for feature selection...")
+            iv_df = calculate_information_value(X, y)
+            
+            # Filter features with IV > 0.02 (weak predictive power threshold)
+            useful_features = iv_df[iv_df['IV'] >= 0.02]['Feature'].tolist()
+            logger.info(f"Features with IV >= 0.02: {len(useful_features)}/{len(X.columns)}")
+            X = X[useful_features]
+        
+        if apply_woe and WoETransformer:
+            logger.info("Applying WoE transformation...")
+            woe_transformer = WoETransformer(n_bins=10, min_samples=5)
+            X = woe_transformer.fit_transform(X, y)
+            logger.info("WoE transformation completed")
+        
+        return X, iv_df if calculate_iv else None
+    
+    except Exception as e:
+        logger.warning(f"Error applying WoE/IV transformation: {str(e)}")
+        logger.warning("Continuing without WoE transformation...")
+        return X, None
 
